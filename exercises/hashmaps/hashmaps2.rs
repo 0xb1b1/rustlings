@@ -11,9 +11,10 @@
 //
 // Execute `rustlings hint hashmaps2` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+
 
 use std::collections::HashMap;
+//extern crate rand;  // Just for fun - voxel
 
 #[derive(Hash, PartialEq, Eq)]
 enum Fruit {
@@ -33,10 +34,14 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         Fruit::Pineapple,
     ];
 
+    let mut count: u32 = 3;
     for fruit in fruit_kinds {
         // TODO: Put new fruits if not already present. Note that you
         // are not allowed to put any type of fruit that's already
         // present!
+        //basket.entry(fruit).or_insert(rand::random().parse::<u32>());
+        basket.entry(fruit).or_insert(count);
+        count += 1;
     }
 }
 

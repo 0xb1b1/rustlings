@@ -14,7 +14,7 @@
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+
 
 use std::collections::HashMap;
 
@@ -23,6 +23,30 @@ struct Team {
     name: String,
     goals_scored: u8,
     goals_conceded: u8,
+}
+
+impl Team {
+    fn new(name: &str, goals_scored: &u8, goals_conceded: &u8) -> Team {
+        Team {
+            name: String::from(name),
+            goals_scored: *goals_scored,
+            goals_conceded: *goals_conceded
+        }
+    }
+    fn update_stats(&mut self, g: &u8, c: &u8) -> &Team {
+        self.update_goals(g);
+        self.update_conceded(c);
+        self
+    }
+    fn update_goals(&mut self, inc: &u8) -> &Team {
+        self.goals_scored += inc;
+        self
+    }
+    fn update_conceded(&mut self, inc: &u8) -> &Team {
+        self.goals_conceded += inc;
+        self
+    }
+    fn drop<T>(_x: T) { }  // Example del/drop method
 }
 
 fn build_scores_table(results: String) -> HashMap<String, Team> {
@@ -40,6 +64,12 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        let team1: Team = Team::new(&team_1_name, &u8::from(0), &u8::from(0));
+        let team2: Team = Team::new(&team_2_name, &u8::from(0), &u8::from(0));
+        let team1_entry = scores.entry(team_1_name).or_insert(team1);
+        team1_entry.update_stats(&team_1_score, &team_2_score);
+        let team2_entry = scores.entry(team_2_name).or_insert(team2);
+        team2_entry.update_stats(&team_2_score, &team_1_score);
     }
     scores
 }
